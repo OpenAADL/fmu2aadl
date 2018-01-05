@@ -30,6 +30,14 @@ Note
 The script assumes ``libxml2`` is installed, along with a fully 
 operational ``Ocarina``, Python and a gcc + binutils compilation chain.
 
+Testing
+-------
+
+Examples are provided in the ``examples`` directory.
+
+A ``Dockerfile`` is provided for quick tests using the docker container engine.
+See contents for more details.
+
 Authors
 -------
 
