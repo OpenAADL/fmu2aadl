@@ -13,7 +13,7 @@ check_aadl: moonlanding_fmu.aadl
 	ocarina -aadlv2 -y moonlanding.aadl
 
 run:
-	./moonlanding_sys_impl/lander/lander
+	@./moonlanding_sys_impl/lander/lander
 
 clean:
 	-rm -rf *~
