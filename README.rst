@@ -1,4 +1,4 @@
-FMU2AADL
+FMU2AADL  |license|
 ========
 
 About
@@ -27,5 +27,9 @@ Add $HOME/.local/bin to your PATH
 Authors
 -------
 
-Jean-Marie Gauthier, Samares Engineering
-Jerome Hugues, ISAE Supaero
+* Jean-Marie Gauthier, Samares Engineering
+* Jerome Hugues, ISAE Supaero
+
+.. |license| image:: https://img.shields.io/badge/License-EPL%201.0-red.svg
+    :target: https://github.com/OpenAADL/fmu2aadl/
+    :alt: License
