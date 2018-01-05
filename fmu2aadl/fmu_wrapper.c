@@ -13,7 +13,7 @@
 #include "sim_support.h"
 #include "fmu_wrapper.h"
 
-//#define FMU_WRAPPER_DEBUG
+//  #define FMU_WRAPPER_DEBUG
 
 #ifdef FMU_WRAPPER_DEBUG
 #define FMU_WRAPPER_PRINT(s, args...) fprintf(stderr, s, ##args); fflush (stderr);
@@ -402,16 +402,16 @@ FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, FMUCont
 
   /* Build resource location */
 
-  fmuResourceLocation = malloc (strlen (resourcePath) + strlen(resourcePrefix) + 2);
+  fmuResourceLocation = malloc (strlen (resourcePath) + strlen(resourcePrefix) + 4);
   sprintf (fmuResourceLocation, "%s%s//",resourcePrefix, resourcePath);
 
   md = ctx->fmu->modelDescription;
   guid = getAttributeValue ((Element *) md, att_guid);
   instanceName = getAttributeValue ((Element *) getCoSimulation (md), att_modelIdentifier);
   c = ctx->fmu->instantiate (instanceName, fmi2CoSimulation, guid, fmuResourceLocation, &callbacks, visible, loggingOn);
-  free (fmuResourceLocation);
   if (!c)
-    return error ("Could not instantiate model @409");
+    return error ("Could not instantiate model");
+  free (fmuResourceLocation);
 
   if (nCategories > 0) {
     fmi2Flag = ctx->fmu->setDebugLogging (c, fmi2True, nCategories, categories);
