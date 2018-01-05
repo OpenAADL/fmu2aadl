@@ -24,8 +24,11 @@ procedure::
 
 Do not forget to add ``$HOME/.local/bin`` to your PATH.
 
-Dependencies: The script assumes ``libxml2`` is installed, along with a fully 
-operational ``Ocarina``, and a gcc + binutils compilation chain.
+Note
+....
+
+The script assumes ``libxml2`` is installed, along with a fully 
+operational ``Ocarina``, Python and a gcc + binutils compilation chain.
 
 Authors
 -------
