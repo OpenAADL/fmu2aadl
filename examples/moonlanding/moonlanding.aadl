@@ -1,0 +1,73 @@
+package MoonLanding
+
+  --  This model represents a basic Moon Lander, and illustrates
+  --  coupling between regular AADL code and FMU
+
+public
+  with Base_Types;
+  with Deployment;
+  with MoonLanding_FMU;
+
+  subprogram Controller_Spg
+  features
+    a_in : in parameter Base_Types::Float;
+    thrust_out : out parameter Base_Types::Float;
+    v_in : in parameter Base_Types::Float;
+  properties
+    Source_Language => (C);
+    Source_Name =>  "controller";
+    Source_Text => ("controller.c");
+  end Controller_Spg;
+
+  thread Controller
+  features
+    a_in : in data port Base_Types::Float;
+    thrust_out : out data port Base_Types::Float;
+    v_in : in data port Base_Types::Float;
+  properties
+    Dispatch_Protocol => Periodic;
+    Period => 10 ms;
+  end Controller;
+
+  thread implementation Controller.impl
+  calls
+    C1: {
+    P_Spg : subprogram Controller_Spg;
+    };
+  connections
+    P1 : parameter A_In -> P_Spg.A_In;
+    P2 : parameter P_Spg.Thrust_Out -> Thrust_Out;
+    P3 : parameter V_In -> P_Spg.V_In;
+  end Controller.impl;
+
+  process MoonLanding
+  end MoonLanding;
+
+  process implementation MoonLanding.impl
+  subcomponents
+    Controller : thread Controller.Impl;
+    Plant      : thread MoonLanding_FMU::MoonLanding_Thread.impl;
+
+  connections
+    C1 : port Plant.A_Out -> Controller.A_In;
+    C2 : port Controller.Thrust_Out -> Plant.Thrust_In;
+    C3 : port Plant.V_Out -> Controller.V_In;
+  end MoonLanding.impl;
+
+  processor CPU
+  properties
+    Deployment::Execution_Platform => Native;
+  end CPU;
+
+  system MoonLanding_Sys
+  end MoonLanding_Sys;
+
+  system implementation MoonLanding_Sys.impl
+  subcomponents
+    CPU : processor CPU;
+    Lander : process MoonLanding.impl;
+  properties
+    Actual_Processor_Binding => (reference (CPU)) applies to Lander;
+  end MoonLanding_Sys.impl;
+
+end MoonLanding;
