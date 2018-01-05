@@ -27,6 +27,9 @@ Instructions
 * To compile this example: ``make build``
 * To run this example: ``make run``
 
+The program will run for 110 seconds, and ouput after each iteration the result from the 
+FMU computations in the file ``result.csv``.
+
 See companion makefile for details
 
 Notes
@@ -34,3 +37,4 @@ Notes
 
 The generated FMU targets GNU/Linux 64 bits, generated binary expect
 the FMUs to be located in the current directory.
+
