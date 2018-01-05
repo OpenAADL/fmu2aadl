@@ -5,8 +5,8 @@ About
 -----
 
 This example is adapted from the Moonlanding example from Peter
-Fritzon, as detailed in the tutorial :
-https://openmodelica.org/images/docs/userdocs/modprod2012-tutorial1-Peter-Fritzson-ModelicaTutorial.pdf
+Fritzon, as detailed in the `tutorial <https://openmodelica.org/images/docs/userdocs/modprod2012-tutorial1-Peter-Fritzson-ModelicaTutorial.pdf/>`_.
+
 
 We adapted this example so that:
 
@@ -17,16 +17,17 @@ We adapted this example so that:
 
 From an code generation perpective:
 
-* The fmu2aadl script generates the corresponding AADL for the
+* The ``fmu2aadl`` script generates the corresponding AADL for the
   environment elements, and the C wrapper function.
-* ocarina is used to assemble all elements together.
+* ``ocarina`` is used to assemble all elements together.
 
 Instructions
 ------------
 
-To compile this example: `make build`
+* To compile this example: ``make build``
+* To run this example: ``make run``
 
-To run this example: `make run`
+See companion makefile for details
 
 Notes
 -----
