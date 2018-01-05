@@ -22,7 +22,7 @@ procedure::
 
   python setup.py install --user
 
-Add $HOME/.local/bin to your PATH
+Add ``$HOME/.local/bin`` to your PATH.
 
 Authors
 -------
