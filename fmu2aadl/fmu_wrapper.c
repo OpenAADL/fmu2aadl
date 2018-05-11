@@ -258,14 +258,14 @@ loadDll (const char *dllPath, FMU * fmu)
 
 /******************************************************************************/
 
-char            basePath[] = "fmu/"; /* where the FMU will be unzipped */
+char            basePath[] = "fmu"; /* where the FMU will be unzipped */
 char           *resourcePath = NULL; /* full path to the above */
 
 int
 fmuImport (const char *fmuFileName, FMU * fmu)
 {
   char           *fmuPath;
-  char           *tmpPath;
+  char           tmpPath[100];
   char           *xmlPath;
   char           *dllPath;
   const char     *modelId;
@@ -276,7 +276,10 @@ fmuImport (const char *fmuFileName, FMU * fmu)
   if (!fmuPath)
     exit (EXIT_FAILURE);
 
-  tmpPath = basePath;
+  strcat (tmpPath, basePath);
+  strcat (tmpPath, "_");
+  strcat (tmpPath, fmuFileName);
+  strcat (tmpPath, "/");
 
   FMU_WRAPPER_PRINT ("Unzip the %s file.\n\n", fmuFileName);
   if (!unzip (fmuPath, tmpPath))
