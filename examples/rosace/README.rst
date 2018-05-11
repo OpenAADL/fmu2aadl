@@ -8,7 +8,7 @@ This package models the case study from "Pagetti, Claire and Saussie, David and 
 
 We adapted this example so that:
 
-* the Aircraft_Dynamic, Elevator and Engine components are modeled as a `Modelica` model in ``Modelica`` directory, and turned into a FMU using the JModelica toolset; a variant of these components are also proposed directly in C
+* the Aircraft_Dynamic, Elevator and Engine components are modeled as a `Modelica` model in ``Modelica`` directory, and turned into a FMU using the JModelica toolset. A variant of these components are also proposed directly in C for reference comparison,
 * all other components are implemented in C,
 * the controller is integrated to the environment in an `AADL` model
 
