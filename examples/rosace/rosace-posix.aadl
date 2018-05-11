@@ -98,20 +98,14 @@ public
   end ROSACE_POSIX;
 
   system implementation ROSACE_POSIX.Monocore
-
-    --  This system implementation is for testing purpose only. There
-    --  is no scheduling being enforced, it is a fallback model to see
-    --  whether the system may run.
-
   subcomponents
     Software : process ROSACE_Controller.impl;
     Hardware : processor ROSACE::Hardware::POSIX_CPU.Default;
 
   properties
     --  Binding all threads to the same processor
-    Actual_Processor_Binding => (reference (Hardware)) applies to Software;
 
-    --    Dispatch_Offset => 0 us applies to Software.Aircraft_Dynamics;
+    Actual_Processor_Binding => (reference (Hardware)) applies to Software;
 
     Dispatch_Offset => 200 us applies to Software.H_filter;
     Dispatch_Offset => 300 us applies to Software.Az_filter;
