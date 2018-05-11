@@ -20,5 +20,5 @@ clean:
 
 distclean: clean
 	-rm -rf moonlanding_sys_impl fmu_wrapper.* userdefined.mk	\
-	moonlanding_fmu.aadl moonlanding_fmu_wrapper.c result.csv fmu	\
-	fmusdk2.0.3
+	moonlanding_fmu.aadl moonlanding_fmu_wrapper.c result.csv	\
+	fmu_* fmu fmusdk2.0.3
