@@ -161,6 +161,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write ('\n')
 
     file.write('FMUContext ' + root.get('modelName').lower() + '_ctx;\n')
+    file.write('\n');
 
     # Activation entry point
 
@@ -177,6 +178,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
                + 'FMU_Activate_Entrypoint (fmuFileName, tEnd, h, &'
                + root.get('modelName').lower() + '_ctx);\n');
     file.write('}\n');
+    file.write('\n');
 
     # Define the compute entry point function
 
@@ -206,9 +208,8 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
 
     file.write (') \n{\n');
     file.write(2 * ' ' + 'double          tEnd = ' + duration + ';\n')
-    file.write('FMUContext ctx = ' + root.get('modelName').lower() + '_ctx;\n')
+    file.write(2 * ' ' + 'FMUContext ctx = ' + root.get('modelName').lower() + '_ctx;\n\n')
     file.write(2 * ' ' + '/* Main compute entrypoint */\n');
-    file.write('\n');
     file.write(2 * ' ' + 'fmi2ValueReference vr;\n');
     file.write(2 * ' ' + 'fmi2Real        r;\n');
     file.write(2 * ' ' + 'fmi2Status      fmi2Flag;\n');
