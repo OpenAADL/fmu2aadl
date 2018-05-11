@@ -50,8 +50,8 @@ def FMU2AADL_MapScalarVariable(tree, file,thread_port):
 
     # The following dictionnaries define XML to AADL text mappings
 
-    causality_map = { 'input' : '_in : in ',
-                      'output' : '_out : out ' }
+    causality_map = { 'input' : ': in ',
+                      'output' : ': out ' }
 
     variability_map = { 'continuous' : 'data port ',
                         'discrete' : 'even port ' }
@@ -116,14 +116,14 @@ def FMU2AADL_Thread_Impl(root,tree,file):
     for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
         if svar.get('causality') == 'input':
             file.write(6 * ' ' + 'C' + str(int(cnx_index)) +': port '
-                       + svar.get('name') + '_in -> P_Spg.'
-                       + svar.get('name') + '_in;\n')
+                       + svar.get('name') + '-> P_Spg.'
+                       + svar.get('name') + ';\n')
             cnx_index = cnx_index + 1
 
         if svar.get('causality') == 'output':
             file.write(6 * ' ' + 'C' + str(cnx_index) + ': port P_Spg.'
-                       + svar.get('name') + '_out -> ' + svar.get('name')
-                       + '_out;\n')
+                       + svar.get('name') + '-> ' + svar.get('name')
+                       + ';\n')
             cnx_index = cnx_index + 1
 
     file.write('\n')
@@ -169,7 +169,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
                 file.write (',\n')
                 file.write(7 * ' ')
 
-            file.write ('fmi2Real ' + svar.get('name') + '_in')
+            file.write ('fmi2Real ' + svar.get('name'))
 
         if svar.get('causality') == 'output':
             if is_first_arg:
@@ -179,7 +179,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
                 file.write (',\n')
                 file.write(7 * ' ')
 
-            file.write('fmi2Real *' + svar.get('name') + '_out')
+            file.write('fmi2Real *' + svar.get('name'))
 
     file.write (') \n{\n');
 
@@ -222,7 +222,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
                        + '_sv);\n')
             file.write (2 * ' '
                         + 'fmi2Flag = ctx.fmu->setReal (ctx.component, &vr, 1, &'
-                        + svar.get('name') + '_in);\n')
+                        + svar.get('name') + '_sv);\n')
     file.write('\n')
 
     file.write (2 * ' ' +  '/* Calculate the Step */\n')
@@ -245,7 +245,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
                        + '_sv);\n')
             file.write(2 * ' '
                        + 'fmi2Flag = ctx.fmu->getReal (ctx.component, &vr, 1, &r);\n')
-            file.write (2 * ' ' + '*' + svar.get('name') + '_out = r;\n')
+            file.write (2 * ' ' + '*' + svar.get('name') + '= r;\n')
             file.write('\n');
 
     file.write(2 * ' '
