@@ -98,6 +98,9 @@ def FMU2AADL_Thread(root,tree,file,period):
     file.write(3 * ' ' + 'properties\n')
     file.write(6 * ' ' + 'Dispatch_Protocol => Periodic;\n')
     file.write(6 * ' ' + 'Period => '+ period + 'ms;\n')
+    file.write(6 * ' ' + 'Initialize_Entrypoint_Source_Text => "'
+               + root.get('modelName').lower()
+               + '_fmu_activate_entrypoint";')
     file.write(3 * ' ' + 'end ' + root.get('modelName') + '_thread;\n')
     file.write('\n')
 
@@ -157,6 +160,26 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write ('#include "fmu_wrapper.h"\n')
     file.write ('\n')
 
+    file.write('FMUContext ' + root.get('modelName').lower() + '_ctx;\n')
+
+    # Activation entry point
+
+    file.write('void ' + root.get('modelName').lower()
+               + '_fmu_activate_entrypoint (void) {\n')
+    file.write(2 * ' ' + 'const char     *fmuFileName ="' + fmu_file + '";\n')
+    file.write(2 * ' ' + 'double          tEnd = ' + duration + ';\n')
+    file.write(2 * ' ' + 'double          h = ' + period + ' / 1000.0;\n')
+    file.write('\n');
+
+    file.write(2 * ' ' + root.get('modelName').lower()
+               + '_ctx.fmu = malloc (sizeof (FMU));\n');
+    file.write(2 * ' '
+               + 'FMU_Activate_Entrypoint (fmuFileName, tEnd, h, &'
+               + root.get('modelName').lower() + '_ctx);\n');
+    file.write('}\n');
+
+    # Define the compute entry point function
+
     is_first_arg = True
     file.write('void ' + root.get('modelName').lower() + '_fmu_entrypoint \n')
 
@@ -182,25 +205,9 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
             file.write('fmi2Real *' + svar.get('name'))
 
     file.write (') \n{\n');
-
-    file.write(2 * ' ' + 'const char     *fmuFileName ="' + fmu_file + '";\n')
     file.write(2 * ' ' + 'double          tEnd = ' + duration + ';\n')
-    file.write(2 * ' ' + 'double          h = ' + period + ' / 1000.0;\n')
-    file.write(2 * ' ' + 'static bool    initialized = false;\n')
-    file.write(2 * ' ' + 'static FMUContext      ctx;\n')
-    file.write('\n');
-    file.write(2 * ' ' + '/* 1/ FMU activation */')
-    file.write('\n');
-
-    file.write(2 * ' ' + 'if (!initialized) {\n');
-    file.write(4 * ' ' + 'ctx.fmu = malloc (sizeof (FMU));\n');
-    file.write(4 * ' '
-               + 'FMU_Activate_Entrypoint (fmuFileName, tEnd, h, &ctx);\n');
-    file.write(4 * ' ' + 'initialized = true;\n');
-    file.write(2 * ' ' + '}\n');
-    file.write('\n');
-
-    file.write(2 * ' ' + '/* 2/ Regular compute entrypoint */\n');
+    file.write('FMUContext ctx = ' + root.get('modelName').lower() + '_ctx;\n')
+    file.write(2 * ' ' + '/* Main compute entrypoint */\n');
     file.write('\n');
     file.write(2 * ' ' + 'fmi2ValueReference vr;\n');
     file.write(2 * ' ' + 'fmi2Real        r;\n');
