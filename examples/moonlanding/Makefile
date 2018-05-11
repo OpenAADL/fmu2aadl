@@ -1,4 +1,4 @@
-all: moonlanding_fmu.aadl check_aadl code_gen
+all: moonlanding_fmu.aadl check_aadl code_gen build
 
 moonlanding_fmu.aadl: MoonLanding.fmu
 	fmu2aadl MoonLanding.fmu --period=10 --duration=110
@@ -19,5 +19,6 @@ clean:
 	-rm -rf *~
 
 distclean: clean
-	-rm -rf moonlanding_sys_impl fmu_wrapper.* userdefined.mk moonlanding_fmu.aadl \
-	moonlanding_fmu_wrapper.c result.csv fmu fmusdk2.0.3
+	-rm -rf moonlanding_sys_impl fmu_wrapper.* userdefined.mk	\
+	moonlanding_fmu.aadl moonlanding_fmu_wrapper.c result.csv fmu	\
+	fmusdk2.0.3
