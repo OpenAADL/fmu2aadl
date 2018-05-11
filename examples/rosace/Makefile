@@ -1,5 +1,10 @@
-all: aircraft_dynamics_fmu.aadl engine_fmu.aadl elevator_fmu.aadl \
+all: build
+
+build: aircraft_dynamics_fmu.aadl engine_fmu.aadl elevator_fmu.aadl \
 	posix_monocore fmi_monocore
+
+run:
+	./rosace_posix_fmi_monocore/software/software
 
 aircraft_dynamics_fmu.aadl: Aircraft_Dynamics.fmu
 	fmu2aadl Aircraft_Dynamics.fmu --period=10 --duration=110
