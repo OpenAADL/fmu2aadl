@@ -56,7 +56,7 @@ def FMU2AADL_MapScalarVariable(tree, file,thread_port):
     variability_map = { 'continuous' : 'data port ',
                         'discrete' : 'even port ' }
 
-    type_map = { 'real' : 'Base_Types::Float',
+    type_map = { 'real' : 'Base_Types::Float_64',
                  'integer' : 'Base_Types::Integer',
                  'boolean' : 'Base_Types::Boolean' }
 
@@ -152,6 +152,8 @@ def FMU2AADL_Subprogram(root,tree,file):
 ################################################################################
 def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
 
+    ctxName = root.get('modelName').lower() + '_ctx'
+
     file.write ('#include <stdbool.h>\n')
     file.write ('#include <stdio.h>\n')
     file.write ('#include <stdlib.h>\n')
@@ -160,10 +162,10 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write ('#include "fmu_wrapper.h"\n')
     file.write ('\n')
 
-    file.write('FMUContext ' + root.get('modelName').lower() + '_ctx;\n')
+    file.write('FMUContext ' + ctxName + ';\n')
     file.write('\n');
 
-    # Activation entry point
+    # Activation entrypoint
 
     file.write('void ' + root.get('modelName').lower()
                + '_fmu_activate_entrypoint (void) {\n')
@@ -172,15 +174,14 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write(2 * ' ' + 'double          h = ' + period + ' / 1000.0;\n')
     file.write('\n');
 
-    file.write(2 * ' ' + root.get('modelName').lower()
-               + '_ctx.fmu = malloc (sizeof (FMU));\n');
+    file.write(2 * ' ' + ctxName + '.fmu = malloc (sizeof (FMU));\n');
     file.write(2 * ' '
                + 'FMU_Activate_Entrypoint (fmuFileName, tEnd, h, &'
-               + root.get('modelName').lower() + '_ctx);\n');
+               + ctxName + ');\n');
     file.write('}\n');
     file.write('\n');
 
-    # Define the compute entry point function
+    # Compute entrypoint function
 
     is_first_arg = True
     file.write('void ' + root.get('modelName').lower() + '_fmu_entrypoint \n')
@@ -212,14 +213,13 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write(2 * ' ' + '/* Main compute entrypoint */\n');
     file.write(2 * ' ' + 'fmi2ValueReference vr;\n');
     file.write(2 * ' ' + 'fmi2Real        r;\n');
-    file.write(2 * ' ' + 'fmi2Status      fmi2Flag;\n');
-    file.write('\n');
+    file.write(2 * ' ' + 'fmi2Status      fmi2Flag;\n\n');
 
     file.write(2 * ' ' + '/* Get the scalar variables */\n');
     for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
         if svar.get('causality') == 'input' or svar.get('causality') == 'output':
             file.write(2 * ' ' + 'ScalarVariable *' + svar.get('name') + '_sv'
-                       + ' = getVariable (ctx.fmu->modelDescription, "'
+                       + ' = getVariable (' + ctxName + '.fmu->modelDescription, "'
                        + svar.get('name') + '");\n')
     file.write('\n');
 
@@ -229,21 +229,15 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
             file.write(2 * ' ' + 'vr = getValueReference (' + svar.get('name')
                        + '_sv);\n')
             file.write (2 * ' '
-                        + 'fmi2Flag = ctx.fmu->setReal (ctx.component, &vr, 1, &'
-                        + svar.get('name') + '_sv);\n')
+                        + 'fmi2Flag = ' + ctxName + '.fmu->setReal (ctx.component, &vr, 1, &'
+                        + svar.get('name') + ');\n')
     file.write('\n')
 
     file.write (2 * ' ' +  '/* Calculate the Step */\n')
-    file.write (2 * ' ' +  'doStep (ctx.fmu, ctx.component,\n')
-    file.write (10 * ' ' +  'ctx.currentCommunicationPoint,\n')
-    file.write (10 * ' ' +  'ctx.communicationStepSize,\n')
-    file.write (10 * ' ' +  'ctx.noSetFMUStatePriorToCurrentPoint);\n')
-    file.write('\n');
-
-    file.write (2 * ' ' +  '/* Dump values */\n')
-    file.write (2 * ' ' +  'outputRow (ctx.fmu, ctx.component,\n')
-    file.write (13 * ' ' +  'ctx.currentCommunicationPoint,\n')
-    file.write (13 * ' ' +  "ctx.resultFile, ',', fmi2False);\n")
+    file.write (2 * ' ' +  'doStep (' + ctxName + '.fmu, ' + ctxName + '.component,\n')
+    file.write (10 * ' ' +  '' + ctxName + '.currentCommunicationPoint,\n')
+    file.write (10 * ' ' +  '' + ctxName + '.communicationStepSize,\n')
+    file.write (10 * ' ' +  '' + ctxName + '.noSetFMUStatePriorToCurrentPoint);\n')
     file.write('\n');
 
     file.write (2 * ' ' +  '/* Get the outputs */\n')
@@ -252,17 +246,17 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
             file.write(2 * ' ' + 'vr = getValueReference (' + svar.get('name')
                        + '_sv);\n')
             file.write(2 * ' '
-                       + 'fmi2Flag = ctx.fmu->getReal (ctx.component, &vr, 1, &r);\n')
+                       + 'fmi2Flag = ' + ctxName + '.fmu->getReal (' + ctxName + '.component, &vr, 1, &r);\n')
             file.write (2 * ' ' + '*' + svar.get('name') + '= r;\n')
             file.write('\n');
 
     file.write(2 * ' '
-               + 'ctx.currentCommunicationPoint += ctx.communicationStepSize;\n');
+               + '' + ctxName + '.currentCommunicationPoint += ' + ctxName + '.communicationStepSize;\n');
     file.write('\n');
     file.write(2 * ' ' + '/* 3) terminate the simulation */\n');
     file.write('\n');
-    file.write(2 * ' ' + 'if (ctx.currentCommunicationPoint > tEnd)  {\n');
-    file.write(4 * ' ' + 'freeContext (ctx);\n');
+    file.write(2 * ' ' + 'if (' + ctxName + '.currentCommunicationPoint > tEnd)  {\n');
+    file.write(4 * ' ' + 'freeContext (' + ctxName + ');\n');
     file.write(4 * ' ' + 'exit (0);\n');
     file.write(2 * ' ' + '}\n');
     file.write('}\n');
