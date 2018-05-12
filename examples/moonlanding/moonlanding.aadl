@@ -4,15 +4,15 @@ package MoonLanding
   --  coupling between regular AADL code and FMU
 
 public
-  with Base_Types;
+  with FMI;
   with Deployment;
   with MoonLanding_FMU;
 
   subprogram Controller_Spg
   features
-    a_in : in parameter Base_Types::Float_64;
-    thrust_out : out parameter Base_Types::Float_64;
-    v_in : in parameter Base_Types::Float_64;
+    a_in : in parameter FMI::fmi2Real;
+    thrust_out : out parameter FMI::fmi2Real;
+    v_in : in parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name =>  "controller";
@@ -21,9 +21,9 @@ public
 
   thread Controller
   features
-    a_in : in data port Base_Types::Float_64;
-    thrust_out : out data port Base_Types::Float_64;
-    v_in : in data port Base_Types::Float_64;
+    a_in : in data port FMI::fmi2Real;
+    thrust_out : out data port FMI::fmi2Real;
+    v_in : in data port FMI::fmi2Real;
   properties
     Dispatch_Protocol => Periodic;
     Period => 10 ms;

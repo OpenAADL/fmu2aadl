@@ -31,7 +31,7 @@ def FMU2AADL_Prologue(root, file):
     file.write('\n')
     file.write('package ' + root.get('modelName') + '_FMU\n')
     file.write('public\n')
-    file.write(3 * ' ' + 'with Base_Types;\n')
+    file.write(3 * ' ' + 'with FMI;\n')
     file.write('\n')
 
 ################################################################################
@@ -56,9 +56,9 @@ def FMU2AADL_MapScalarVariable(tree, file,thread_port):
     variability_map = { 'continuous' : 'data port ',
                         'discrete' : 'even port ' }
 
-    type_map = { 'real' : 'Base_Types::Float_64',
-                 'integer' : 'Base_Types::Integer',
-                 'boolean' : 'Base_Types::Boolean' }
+    type_map = { 'real' : 'FMI::fmi2Real',
+                 'integer' : 'FMI::fmi2Integer',
+                 'boolean' : 'FMI::fmi2Boolean' }
 
     fmu_type=''
 
