@@ -10,9 +10,9 @@ public
 
   subprogram Controller_Spg
   features
-    a_in : in parameter Base_Types::Float;
-    thrust_out : out parameter Base_Types::Float;
-    v_in : in parameter Base_Types::Float;
+    a_in : in parameter Base_Types::Float_64;
+    thrust_out : out parameter Base_Types::Float_64;
+    v_in : in parameter Base_Types::Float_64;
   properties
     Source_Language => (C);
     Source_Name =>  "controller";
@@ -21,9 +21,9 @@ public
 
   thread Controller
   features
-    a_in : in data port Base_Types::Float;
-    thrust_out : out data port Base_Types::Float;
-    v_in : in data port Base_Types::Float;
+    a_in : in data port Base_Types::Float_64;
+    thrust_out : out data port Base_Types::Float_64;
+    v_in : in data port Base_Types::Float_64;
   properties
     Dispatch_Protocol => Periodic;
     Period => 10 ms;

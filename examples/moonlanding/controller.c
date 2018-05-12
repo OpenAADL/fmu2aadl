@@ -23,5 +23,7 @@ void controller
     else
       *thrust_out = 0.0;
 
+  printf ("%f %f %f\n", current_time, a_in, *thrust_out);
+
   current_time += dt;
 }
