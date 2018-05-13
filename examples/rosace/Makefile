@@ -1,7 +1,7 @@
 all: build
 
 build: aircraft_dynamics_fmu.aadl engine_fmu.aadl elevator_fmu.aadl \
-	posix_monocore fmi_monocore
+	fmi_monocore
 
 run:
 	./rosace_posix_fmi_monocore/software/software
@@ -14,10 +14,6 @@ engine_fmu.aadl: Engine.fmu
 
 elevator_fmu.aadl: Elevator.fmu
 	fmu2aadl Elevator.fmu --period=5 --duration=110
-
-posix_monocore:
-	ocarina -aadlv2 -y -b -g polyorb_hi_c \
-	-r ROSACE::POSIX::rosace_posix.monocore rosace-posix.aadl
 
 fmi_monocore:
 	ocarina -aadlv2 -y -b -g polyorb_hi_c \
