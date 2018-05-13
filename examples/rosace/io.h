@@ -1,7 +1,7 @@
 #ifndef __IO_H__
 #define __IO_H__
 
-typedef unsigned long long uint64_t;
+#include <stdint.h>
 
 struct aircraft_dynamics_outs_t {
     float Va;
