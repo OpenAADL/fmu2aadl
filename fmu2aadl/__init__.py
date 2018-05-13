@@ -153,6 +153,7 @@ def FMU2AADL_Subprogram(root,tree,file):
 def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
 
     ctxName = root.get('modelName').lower() + '_ctx'
+    fmu_file_full_path = os.path.abspath(fmu_file)
 
     file.write ('#include <stdbool.h>\n')
     file.write ('#include <stdio.h>\n')
@@ -169,7 +170,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
 
     file.write('void ' + root.get('modelName').lower()
                + '_fmu_activate_entrypoint (void) {\n')
-    file.write(2 * ' ' + 'const char     *fmuFileName ="' + fmu_file + '";\n')
+    file.write(2 * ' ' + 'const char     *fmuFileName ="' + fmu_file_full_path + '";\n')
     file.write(2 * ' ' + 'double          tEnd = ' + duration + ';\n')
     file.write(2 * ' ' + 'double          h = ' + period + ' / 1000.0;\n')
     file.write('\n');

@@ -278,7 +278,7 @@ fmuImport (const char *fmuFileName, FMU * fmu)
 
   strcat (tmpPath, basePath);
   strcat (tmpPath, "_");
-  strcat (tmpPath, fmuFileName);
+  strcat (tmpPath, basename (strdup (fmuFileName)));
   strcat (tmpPath, "/");
 
   FMU_WRAPPER_PRINT ("Unzip the %s file.\n\n", fmuFileName);
