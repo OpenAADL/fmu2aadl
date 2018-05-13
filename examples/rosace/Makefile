@@ -23,4 +23,6 @@ clean:
 	rm -rf *~
 
 distclean: clean
-	rm -rf rosace_posix_monocore rosace_posix_fmi_monocore *_fmu.aadl *.o *_fmu_wrapper.c fmusdk2.0.3 fmu fmu_wrapper.* fmu_* result.csv
+	rm -rf rosace_posix_monocore rosace_posix_fmi_monocore *_fmu.aadl \
+	*.o *_fmu_wrapper.c fmusdk2.0.3 fmu fmu_wrapper.* fmu_* result.csv \
+	userdefined.mk
