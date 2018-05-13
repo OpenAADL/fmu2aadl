@@ -265,7 +265,7 @@ int
 fmuImport (const char *fmuFileName, FMU * fmu)
 {
   char           *fmuPath;
-  char           tmpPath[100];
+  char           tmpPath[100] = "";
   char           *xmlPath;
   char           *dllPath;
   const char     *modelId;
