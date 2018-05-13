@@ -4,7 +4,7 @@ FMU2AADL  |license|
 About
 -----
 
-The `fmu2aadl` script maps FMU to AADL package that can be later
+The ``fmu2aadl`` script maps FMU to AADL package that can be later
 integrated into larger AADL models, to simulate larger systems, and
 additional makefiles and C compilation units for integration with
 Ocarina.
@@ -29,6 +29,7 @@ Note
 
 The script assumes ``libxml2`` is installed, along with a fully 
 operational ``Ocarina``, Python and a gcc + binutils compilation chain.
+See provided Dockerfile for the full list of dependencies.
 
 Testing
 -------
