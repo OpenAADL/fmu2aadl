@@ -6,61 +6,7 @@ package ROSACE::Software
 
 public
 
-  with Base_Types;
-
-  -----------------------
-  -- Aircraft_Dynamics --
-  -----------------------
-
-  subprogram Aircraft_Dynamics
-  features
-    Delta_E : in   parameter Base_Types::Float;
-    T       : in   parameter Base_Types::Float;
-    Va      : out  parameter Base_Types::Float;
-    Vz      : out  parameter Base_Types::Float;
-    Q       : out  parameter Base_Types::Float;
-    Az      : out  parameter Base_Types::Float;
-    H       : out  parameter Base_Types::Float;
-
-  properties
-    Source_Language => (C);
-    Source_Name => "aircraft_dynamics_aadl";
-    Source_Text => ("app_aadl.c");
-
-    Compute_Execution_Time => 0 us .. 200 us;
-  end Aircraft_Dynamics;
-
-  --------------
-  -- Elevator --
-  --------------
-
-  subprogram Elevator
-  features
-    Delta_E_C : in  parameter Base_Types::Float;
-    Output    : out parameter Base_Types::Float;
-  properties
-    Source_Language => (C);
-    Source_Name => "elevator_aadl";
-    Source_Text => ("app_aadl.c");
-
-    Compute_Execution_Time => 0 us .. 100 us;
-  end Elevator;
-
-  ------------
-  -- Engine --
-  ------------
-
-  subprogram Engine
-  features
-    Delta_Th_C : in  parameter Base_Types::Float;
-    Output     : out parameter Base_Types::Float;
-  properties
-    Source_Language => (C);
-    Source_Name => "engine_aadl";
-    Source_Text => ("app_aadl.c");
-
-    Compute_Execution_Time => 0 us .. 100 us;
-  end Engine;
+  with FMI;
 
   ---------------
   -- Va_Filter --
@@ -68,8 +14,8 @@ public
 
   subprogram Va_Filter
   features
-    Va     : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    Va     : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "va_filter_aadl";
@@ -84,8 +30,8 @@ public
 
   subprogram H_Filter
   features
-    H      : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    H      : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "h_filter_aadl";
@@ -100,8 +46,8 @@ public
 
   subprogram Az_Filter
   features
-    Az     : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    Az     : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "az_filter_aadl";
@@ -116,8 +62,8 @@ public
 
   subprogram Vz_Filter
   features
-    Vz     : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    Vz     : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "vz_filter_aadl";
@@ -132,8 +78,8 @@ public
 
   subprogram Q_Filter
   features
-    Q      : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    Q      : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "q_filter_aadl";
@@ -148,9 +94,9 @@ public
 
   subprogram Altitude_Hold
   features
-    H_f    : in  parameter Base_Types::Float;
-    H_c    : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    H_f    : in  parameter FMI::fmi2Real;
+    H_c    : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "altitude_hold_aadl";
@@ -165,11 +111,11 @@ public
 
   subprogram Vz_control
   features
-    Vz_f   : in  parameter Base_Types::Float;
-    Vz_c   : in  parameter Base_Types::Float;
-    Q_f    : in  parameter Base_Types::Float;
-    Az_f   : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    Vz_f   : in  parameter FMI::fmi2Real;
+    Vz_c   : in  parameter FMI::fmi2Real;
+    Q_f    : in  parameter FMI::fmi2Real;
+    Az_f   : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "vz_control_aadl";
@@ -184,11 +130,11 @@ public
 
   subprogram Va_control
   features
-    Va_f   : in  parameter Base_Types::Float;
-    Vz_f   : in  parameter Base_Types::Float;
-    Q_f    : in  parameter Base_Types::Float;
-    Va_c   : in  parameter Base_Types::Float;
-    Output : out parameter Base_Types::Float;
+    Va_f   : in  parameter FMI::fmi2Real;
+    Vz_f   : in  parameter FMI::fmi2Real;
+    Q_f    : in  parameter FMI::fmi2Real;
+    Va_c   : in  parameter FMI::fmi2Real;
+    Output : out parameter FMI::fmi2Real;
   properties
     Source_Language => (C);
     Source_Name => "va_control_aadl";
@@ -206,14 +152,14 @@ public
     --  regular ROSACE case study
 
   features
-    T          : in parameter Base_Types::Float;
-    Va         : in parameter Base_Types::Float;
-    Az         : in parameter Base_Types::Float;
-    Q          : in parameter Base_Types::Float;
-    Vz         : in parameter Base_Types::Float;
-    H          : in parameter Base_Types::Float;
-    Delta_th_c : in parameter Base_Types::Float;
-    Delta_E_C  : in parameter Base_Types::Float;
+    T          : in parameter FMI::fmi2Real;
+    Va         : in parameter FMI::fmi2Real;
+    Az         : in parameter FMI::fmi2Real;
+    Q          : in parameter FMI::fmi2Real;
+    Vz         : in parameter FMI::fmi2Real;
+    H          : in parameter FMI::fmi2Real;
+    Delta_th_c : in parameter FMI::fmi2Real;
+    Delta_E_C  : in parameter FMI::fmi2Real;
 
   properties
     Source_Language => (C);

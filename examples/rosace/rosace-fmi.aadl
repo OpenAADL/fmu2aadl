@@ -10,7 +10,6 @@ public
   with ROSACE;
   with ROSACE::Hardware;
   with ROSACE::Threads;
-  with ROSACE::POSIX;
 
   with Aircraft_Dynamics_FMU;
   with Elevator_FMU;
@@ -83,7 +82,7 @@ public
 
     -- Inputs for ROSACE_Log
 
-    C19 : port Engine.y         -> ROSACE_Log.T;
+    C19 : port Engine.y                 -> ROSACE_Log.T;
     C20 : port Aircraft_Dynamics.Va     -> ROSACE_Log.Va;
     C21 : port Aircraft_Dynamics.Az     -> ROSACE_Log.az;
     C22 : port Aircraft_Dynamics.Q_Out  -> ROSACE_Log.Q;
@@ -121,6 +120,9 @@ public
     Dispatch_Offset => 1300 us applies to Software.Va_Control;
     Dispatch_Offset => 1400 us applies to Software.Engine;
     Dispatch_Offset => 1500 us applies to Software.ROSACE_Log;
+
+    Activate_Entrypoint_Source_text => "init_aircraft"
+    applies to Software.Aircraft_Dynamics;
 
   end ROSACE_POSIX_FMI.Monocore;
 

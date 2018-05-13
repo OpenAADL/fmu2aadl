@@ -4,24 +4,21 @@
 #include "app2_code.c"
 
 void va_filter_aadl (float va, float* output) {
-  *output = Va_filter (va);
-
+  *output = (double) Va_filter ((float) va);
 }
 
 void h_filter_aadl (float h, float* output) {
-  *output = h_filter (h);
-
+  *output = (double) h_filter ((float) h);
 }
 
 void az_filter_aadl (float az, float* output) {
-  *output = az_filter (az);
+  *output = (double) az_filter ((float) az);
 }
 
 void vz_filter_aadl (float vz, float* output) {
-  *output = Vz_filter (vz);
-
+  *output = (double) Vz_filter ((float) vz);
 }
 
 void q_filter_aadl (float q, float* output) {
-  *output = q_filter (q);
+  *output = (double) q_filter ((float) q);
 }

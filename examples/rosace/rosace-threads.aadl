@@ -6,87 +6,8 @@ package ROSACE::Threads
 -- define the period.
 
 public
-  with Base_Types;
+  with FMI;
   with ROSACE::Software;
-
-  -------------------------
-  -- Aircraft_Dynamics_T --
-  -------------------------
-
-  thread Aircraft_Dynamics_T
-  features
-    Delta_E : in   data port Base_Types::Float;
-    T       : in   data port Base_Types::Float;
-    Va      : out  data port Base_Types::Float;
-    Vz      : out  data port Base_Types::Float;
-    Q       : out  data port Base_Types::Float;
-    Az      : out  data port Base_Types::Float;
-    H       : out  data port Base_Types::Float;
-
-  properties
-    Dispatch_Protocol => Periodic;
-    Period            => 5 ms; -- 200 Hz
-  end Aircraft_Dynamics_T;
-
-  thread implementation Aircraft_Dynamics_T.impl
-  calls
-    Call1 : { S : subprogram ROSACE::Software::Aircraft_Dynamics; };
-
-  connections
-    C1 : parameter Delta_E -> S.Delta_E;
-    C2 : parameter T       -> S.T;
-    C3 : parameter S.Va    -> Va;
-    C4 : parameter S.Vz    -> Vz;
-    C5 : parameter S.Q     -> Q;
-    C6 : parameter S.Az    -> Az;
-    C7 : parameter S.H     -> H;
-  end  Aircraft_Dynamics_T.impl;
-
-  ----------------
-  -- Elevator_T --
-  ----------------
-
-  thread Elevator_T
-  features
-    Delta_E_C : in  data port Base_Types::Float;
-    Output    : out data port Base_Types::Float;
-
-  properties
-    Dispatch_Protocol => Periodic;
-    Period            => 5 ms; -- 200 Hz
-  end Elevator_T;
-
-  thread implementation Elevator_T.impl
-  calls
-    Call1 : { S : subprogram ROSACE::Software::Elevator; };
-
-  connections
-    C1 : parameter Delta_E_C -> S.Delta_E_C;
-    C3 : parameter S.Output -> Output;
-  end  Elevator_T.impl;
-
-  --------------
-  -- Engine_T --
-  --------------
-
-  thread Engine_T
-  features
-    Delta_Th_C : in  data port Base_Types::Float;
-    Output     : out data port Base_Types::Float;
-
-  properties
-    Dispatch_Protocol => Periodic;
-    Period            => 5 ms; -- 200 Hz
-  end Engine_T;
-
-  thread implementation Engine_T.impl
-  calls
-    Call1 : { S : subprogram ROSACE::Software::Engine; };
-
-  connections
-    C1 : parameter Delta_Th_C -> S.Delta_Th_C;
-    C3 : parameter S.Output -> Output;
-  end  Engine_T.impl;
 
   -----------------
   -- Va_Filter_T --
@@ -94,8 +15,8 @@ public
 
   thread Va_Filter_T
   features
-    Va     : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    Va     : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -117,8 +38,8 @@ public
 
   thread H_Filter_T
   features
-    H      : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    H      : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -140,8 +61,8 @@ public
 
   thread Az_Filter_T
   features
-    Az     : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    Az     : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -163,8 +84,8 @@ public
 
   thread Vz_Filter_T
   features
-    Vz     : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    Vz     : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -186,8 +107,8 @@ public
 
   thread Q_Filter_T
   features
-    Q     : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    Q     : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -209,9 +130,9 @@ public
 
   thread Altitude_Hold_T
   features
-    H_f    : in  data port Base_Types::Float;
-    H_c    : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    H_f    : in  data port FMI::fmi2Real;
+    H_c    : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -234,11 +155,11 @@ public
 
   thread Vz_control_T
   features
-    Vz_f   : in  data port Base_Types::Float;
-    Vz_c   : in  data port Base_Types::Float;
-    Q_f    : in  data port Base_Types::Float;
-    Az_f   : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    Vz_f   : in  data port FMI::fmi2Real;
+    Vz_c   : in  data port FMI::fmi2Real;
+    Q_f    : in  data port FMI::fmi2Real;
+    Az_f   : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -263,11 +184,11 @@ public
 
   thread Va_control_T
   features
-    Va_f   : in  data port Base_Types::Float;
-    Vz_f   : in  data port Base_Types::Float;
-    Q_f    : in  data port Base_Types::Float;
-    Va_c   : in  data port Base_Types::Float;
-    Output : out data port Base_Types::Float;
+    Va_f   : in  data port FMI::fmi2Real;
+    Vz_f   : in  data port FMI::fmi2Real;
+    Q_f    : in  data port FMI::fmi2Real;
+    Va_c   : in  data port FMI::fmi2Real;
+    Output : out data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
@@ -292,14 +213,14 @@ public
 
   thread ROSACE_Log_T
   features
-    T          : in data port Base_Types::Float;
-    Va         : in data port Base_Types::Float;
-    Az         : in data port Base_Types::Float;
-    Q          : in data port Base_Types::Float;
-    Vz         : in data port Base_Types::Float;
-    H          : in data port Base_Types::Float;
-    Delta_th_c : in data port Base_Types::Float;
-    Delta_E_C  : in data port Base_Types::Float;
+    T          : in data port FMI::fmi2Real;
+    Va         : in data port FMI::fmi2Real;
+    Az         : in data port FMI::fmi2Real;
+    Q          : in data port FMI::fmi2Real;
+    Vz         : in data port FMI::fmi2Real;
+    H          : in data port FMI::fmi2Real;
+    Delta_th_c : in data port FMI::fmi2Real;
+    Delta_E_C  : in data port FMI::fmi2Real;
 
   properties
     Dispatch_Protocol => Periodic;
