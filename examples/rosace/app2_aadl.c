@@ -1,7 +1,7 @@
-#include "common.h"
-#include "io.h"
+#include "../rosace_code/common.h"
+#include "../rosace_code/io.h"
 
-#include "app2_code.c"
+#include "../rosace_code/app2_code.c"
 
 void va_filter_aadl (float va, float* output) {
   *output = (double) Va_filter ((float) va);

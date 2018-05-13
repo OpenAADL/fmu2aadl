@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include "common.h"
-#include "io.h"
+#include "../rosace_code/common.h"
+#include "../rosace_code/io.h"
+
+#include "../rosace_code/app3_code.c"
 
 #include "deployment.h"
 #include "request.h"
 #include "po_hi_gqueue.h"
 #include "po_hi_task.h"
-#include <app3_code.c>
 
 /* Helper macros to access AADL entities                                     */
 
