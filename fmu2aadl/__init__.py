@@ -240,6 +240,11 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write (10 * ' ' +  '' + ctxName + '.communicationStepSize,\n')
     file.write (10 * ' ' +  '' + ctxName + '.noSetFMUStatePriorToCurrentPoint);\n')
     file.write('\n');
+    file.write (2 * ' ' +  '/* Dump values */\n')
+    file.write (2 * ' ' +  'outputRow (ctx.fmu, ctx.component,\n')
+    file.write (13 * ' ' +  'ctx.currentCommunicationPoint,\n')
+    file.write (13 * ' ' +  "ctx.resultFile, ',', fmi2False);\n")
+    file.write('\n');
 
     file.write (2 * ' ' +  '/* Get the outputs */\n')
     for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
