@@ -78,7 +78,7 @@ def FMU2AADL_MapScalarVariable(tree, file,thread_port):
 
             # Map the node to an AADL feature
 
-            file.write(6 * ' ' + svar.get('name'))               # port name
+            file.write(6 * ' ' + Map_Name(svar))               # port name
             file.write(causality_map[svar.get('causality')])     # direction
             if (thread_port):                                    # category
                 file.write(variability_map[svar.get('variability')])
@@ -105,6 +105,10 @@ def FMU2AADL_Thread(root,tree,file,period):
     file.write('\n')
 
 ################################################################################
+def Map_Name(svar):
+    return "FMI_" + svar.get('name')
+
+################################################################################
 def FMU2AADL_Thread_Impl(root,tree,file):
     file.write(3 * ' ' + 'thread implementation ' + root.get('modelName')
                + '_thread.impl \n')
@@ -119,13 +123,13 @@ def FMU2AADL_Thread_Impl(root,tree,file):
     for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
         if svar.get('causality') == 'input':
             file.write(6 * ' ' + 'C' + str(int(cnx_index)) +': port '
-                       + svar.get('name') + '-> P_Spg.'
-                       + svar.get('name') + ';\n')
+                       + Map_Name(svar) + '-> P_Spg.'
+                       + Map_Name(svar) + ';\n')
             cnx_index = cnx_index + 1
 
         if svar.get('causality') == 'output':
             file.write(6 * ' ' + 'C' + str(cnx_index) + ': port P_Spg.'
-                       + svar.get('name') + '-> ' + svar.get('name')
+                       + Map_Name(svar) + '-> ' + Map_Name(svar)
                        + ';\n')
             cnx_index = cnx_index + 1
 
@@ -196,7 +200,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
                 file.write (',\n')
                 file.write(7 * ' ')
 
-            file.write ('fmi2Real ' + svar.get('name'))
+            file.write ('fmi2Real ' + Map_Name(svar))
 
         if svar.get('causality') == 'output':
             if is_first_arg:
@@ -206,7 +210,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
                 file.write (',\n')
                 file.write(7 * ' ')
 
-            file.write('fmi2Real *' + svar.get('name'))
+            file.write('fmi2Real *' + Map_Name(svar))
 
     file.write (') \n{\n');
     file.write(2 * ' ' + 'double          tEnd = ' + duration + ';\n')
@@ -219,7 +223,7 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write(2 * ' ' + '/* Get the scalar variables */\n');
     for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
         if svar.get('causality') == 'input' or svar.get('causality') == 'output':
-            file.write(2 * ' ' + 'ScalarVariable *' + svar.get('name') + '_sv'
+            file.write(2 * ' ' + 'ScalarVariable *' + Map_Name(svar) + '_sv'
                        + ' = getVariable (' + ctxName + '.fmu->modelDescription, "'
                        + svar.get('name') + '");\n')
     file.write('\n');
@@ -227,11 +231,11 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write (2 * ' ' + '/* Set the input */\n')
     for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
         if svar.get('causality') == 'input':
-            file.write(2 * ' ' + 'vr = getValueReference (' + svar.get('name')
+            file.write(2 * ' ' + 'vr = getValueReference (' + Map_Name(svar)
                        + '_sv);\n')
             file.write (2 * ' '
                         + 'fmi2Flag = ' + ctxName + '.fmu->setReal (ctx.component, &vr, 1, &'
-                        + svar.get('name') + ');\n')
+                        + Map_Name(svar) + ');\n')
     file.write('\n')
 
     file.write (2 * ' ' +  '/* Calculate the Step */\n')
@@ -249,11 +253,11 @@ def FMU2C_Wrapper(root,tree,file, fmu_file, period, duration):
     file.write (2 * ' ' +  '/* Get the outputs */\n')
     for svar in tree.xpath("/fmiModelDescription/ModelVariables/ScalarVariable"):
         if svar.get('causality') == 'output':
-            file.write(2 * ' ' + 'vr = getValueReference (' + svar.get('name')
+            file.write(2 * ' ' + 'vr = getValueReference (' + Map_Name(svar)
                        + '_sv);\n')
             file.write(2 * ' '
                        + 'fmi2Flag = ' + ctxName + '.fmu->getReal (' + ctxName + '.component, &vr, 1, &r);\n')
-            file.write (2 * ' ' + '*' + svar.get('name') + '= r;\n')
+            file.write (2 * ' ' + '*' + Map_Name(svar) + '= r;\n')
             file.write('\n');
 
     file.write(2 * ' '

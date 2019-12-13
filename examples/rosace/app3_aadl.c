@@ -42,18 +42,18 @@ void init_aircraft (void) {
 
   __po_hi_request_t request;
 
-  request.port = REQUEST_PORT (aircraft_dynamics, t);
-  request.PORT_VARIABLE (aircraft_dynamics, t) = (double) 41813.92119463;
+  request.port = REQUEST_PORT (aircraft_dynamics, fmi_t);
+  request.PORT_VARIABLE (aircraft_dynamics, fmi_t) = (double) 41813.92119463;
   __po_hi_gqueue_store_in
     (software_aircraft_dynamics_k,
-     LOCAL_PORT (aircraft_dynamics, t),
+     LOCAL_PORT (aircraft_dynamics, fmi_t),
      &request);
 
-  request.port = REQUEST_PORT (aircraft_dynamics, delta_e);
-  request.PORT_VARIABLE (aircraft_dynamics, delta_e) = (double) 0.012009615652468;
+  request.port = REQUEST_PORT (aircraft_dynamics, fmi_delta_e);
+  request.PORT_VARIABLE (aircraft_dynamics, fmi_delta_e) = (double) 0.012009615652468;
   __po_hi_gqueue_store_in
     (software_aircraft_dynamics_k,
-     LOCAL_PORT (aircraft_dynamics, delta_e),
+     LOCAL_PORT (aircraft_dynamics, fmi_delta_e),
      &request);
 
 }

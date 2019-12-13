@@ -42,23 +42,23 @@ public
 
   connections
     --  Input for Aircraft Dynamics
-    C1  : port Engine.y   -> Aircraft_Dynamics.T;
-    C2  : port Elevator.y -> Aircraft_Dynamics.Delta_E;
+    C1  : port Engine.FMI_y   -> Aircraft_Dynamics.FMI_T;
+    C2  : port Elevator.FMI_y -> Aircraft_Dynamics.FMI_Delta_E;
 
     --  Inputs for H_Filter
-    C3  : port Aircraft_Dynamics.H_Out -> H_filter.H;
+    C3  : port Aircraft_Dynamics.FMI_H_Out -> H_filter.H;
 
     --  Input for Az_Filter
-    C4  : port Aircraft_Dynamics.Az -> az_filter.az;
+    C4  : port Aircraft_Dynamics.FMI_Az -> az_filter.az;
 
     --  Input for Vz_Filter
-    C5  : port Aircraft_Dynamics.Vz -> Vz_filter.Vz;
+    C5  : port Aircraft_Dynamics.FMI_Vz -> Vz_filter.Vz;
 
     --  Input for Q_Filter
-    C6  : port Aircraft_Dynamics.Q_Out -> Q_filter.Q;
+    C6  : port Aircraft_Dynamics.FMI_Q_Out -> Q_filter.Q;
 
     --  Input for Va_Filter
-    C7  : port Aircraft_Dynamics.Va -> Va_filter.Va;
+    C7  : port Aircraft_Dynamics.FMI_Va -> Va_filter.Va;
 
     --  Input for Altitude_Hold
     C8  : port H_filter.output -> Altitude_Hold.H_f;
@@ -75,19 +75,19 @@ public
     C15 : port Q_filter.output      -> Vz_Control.Q_f;
 
     -- Input for Elevator
-    C17 : port Vz_Control.output -> Elevator.Delta_E_C;
+    C17 : port Vz_Control.output -> Elevator.FMI_Delta_E_C;
 
     -- Input for Engine
-    C18 : port Va_Control.output -> Engine.Delta_Th_C;
+    C18 : port Va_Control.output -> Engine.FMI_Delta_Th_C;
 
     -- Inputs for ROSACE_Log
 
-    C19 : port Engine.y                 -> ROSACE_Log.T;
-    C20 : port Aircraft_Dynamics.Va     -> ROSACE_Log.Va;
-    C21 : port Aircraft_Dynamics.Az     -> ROSACE_Log.az;
-    C22 : port Aircraft_Dynamics.Q_Out  -> ROSACE_Log.Q;
-    C23 : port Aircraft_Dynamics.Vz     -> ROSACE_Log.Vz;
-    C24 : port Aircraft_Dynamics.H_Out  -> ROSACE_Log.H;
+    C19 : port Engine.FMI_y                 -> ROSACE_Log.T;
+    C20 : port Aircraft_Dynamics.FMI_Va     -> ROSACE_Log.Va;
+    C21 : port Aircraft_Dynamics.FMI_Az     -> ROSACE_Log.az;
+    C22 : port Aircraft_Dynamics.FMI_Q_Out  -> ROSACE_Log.Q;
+    C23 : port Aircraft_Dynamics.FMI_Vz     -> ROSACE_Log.Vz;
+    C24 : port Aircraft_Dynamics.FMI_H_Out  -> ROSACE_Log.H;
     C25 : port Va_Control.output        -> ROSACE_Log.Delta_Th_C;
     C26 : port Vz_Control.output        -> ROSACE_Log.Delta_E_C;
 

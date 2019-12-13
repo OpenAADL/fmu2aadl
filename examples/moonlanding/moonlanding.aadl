@@ -49,9 +49,9 @@ public
     Plant      : thread MoonLanding_FMU::MoonLanding_Thread.impl;
 
   connections
-    C1 : port Plant.A -> Controller.A_In;
-    C2 : port Controller.Thrust_Out -> Plant.Thrust;
-    C3 : port Plant.V -> Controller.V_In;
+    C1 : port Plant.FMI_A -> Controller.A_In;
+    C2 : port Controller.Thrust_Out -> Plant.FMI_Thrust;
+    C3 : port Plant.FMI_V -> Controller.V_In;
   end MoonLanding.impl;
 
   processor CPU
