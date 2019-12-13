@@ -100,13 +100,16 @@ def FMU2AADL_Thread(root,tree,file,period):
     file.write(6 * ' ' + 'Period => '+ period + 'ms;\n')
     file.write(6 * ' ' + 'Initialize_Entrypoint_Source_Text => "'
                + root.get('modelName').lower()
-               + '_fmu_activate_entrypoint";')
+               + '_fmu_activate_entrypoint";\n')
     file.write(3 * ' ' + 'end ' + root.get('modelName') + '_thread;\n')
     file.write('\n')
 
 ################################################################################
 def Map_Name(svar):
-    return "FMI_" + svar.get('name')
+    map_name = "FMI_" + svar.get('name').replace("@","_") # Remove '@'
+    map_name = map_name[:-1] if map_name.endswith('_') else map_name
+
+    return map_name
 
 ################################################################################
 def FMU2AADL_Thread_Impl(root,tree,file):
