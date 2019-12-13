@@ -21,4 +21,4 @@ clean:
 distclean: clean
 	-rm -rf moonlanding_sys_impl fmu_wrapper.* userdefined.mk	\
 	moonlanding_fmu.aadl moonlanding_fmu_wrapper.c result.csv	\
-	fmu_* fmu fmusdk2.0.3
+	fmu_* fmu fmusdk2.0.3 Modelica/*_log.txt

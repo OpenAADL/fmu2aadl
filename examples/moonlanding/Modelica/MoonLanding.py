@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from pymodelica import compile_fmu
 from pyfmi import load_fmu
 import pylab as P
@@ -5,8 +7,19 @@ import numpy as N
 
 def run_demo():
 	print("Compiling Modelica models into FMUs")
-	moon_landing_fmu = compile_fmu("MoonLanding","MoonLanding.mo", target='cs', version='2.0',compiler_log_level='d:compilation_moon_landing_log.txt', compiler_options={"cs_solver":1, "cs_step_size":0.001})
-	controller_fmu = compile_fmu("Controller_MoonLanding","Controller_MoonLanding.mo", target='cs', version='2.0',compiler_log_level='d:compilation_moon_landing_log.txt', compiler_options={"cs_solver":1, "cs_step_size":0.001})
+	moon_landing_fmu = compile_fmu("MoonLanding",
+                                       "MoonLanding.mo",
+                                       target='cs',
+                                       version='2.0',
+                                       compiler_log_level='d:compilation_moon_landing_log.txt',
+                                       compiler_options={"cs_solver":1, "cs_step_size":0.001})
+
+	controller_fmu = compile_fmu("Controller_MoonLanding",
+                                     "Controller_MoonLanding.mo",
+                                     target='cs',
+                                     version='2.0',
+                                     compiler_log_level='d:compilation_moon_landing_log.txt',
+                                     compiler_options={"cs_solver":1, "cs_step_size":0.001})
 	
 	print("Loading FMUs")
 	moonLander = load_fmu(moon_landing_fmu, log_level=7)
@@ -86,5 +99,7 @@ def run_demo():
 	P.xlabel('Time (s)')
 
 	P.show()
-			
-		
+
+if __name__ == "__main__":
+        run_demo()
+        
