@@ -1,0 +1,4 @@
+//loadFile(getInstallationDirectoryPath() + "/share/doc/omc/testmodels/BouncingBall.mo");
+loadFile("MoonLanding.mo");
+translateModelFMU(MoonLanding)
+
