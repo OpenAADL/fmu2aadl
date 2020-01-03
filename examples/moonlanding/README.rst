@@ -10,7 +10,7 @@ Fritzon, as detailed in the `tutorial <https://openmodelica.org/images/docs/user
 We adapted this example so that:
 
 * the environment is modeled as a `Modelica` model, and turned into a
-  FMU using the JModelica toolset
+  FMU using the JModelica or OpenModelica toolsets
 * the controller is implemented as a `C` function,
 * the controller is integrated to the environment in an `AADL` model
 
@@ -37,5 +37,5 @@ Notes
 The generated FMU targets GNU/Linux 64 bits, generated binary expect
 the FMUs to be located in the current directory.
 
-To regenerate the FMUs, go in ``Modelica`` directory and run the
-``MoonLanding.py`` script.
+To regenerate the FMUs, go in ``Modelica`` directory and use the
+provided makefile.
