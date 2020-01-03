@@ -385,7 +385,7 @@ FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, FMUCont
   const char     *guid;         /* global unique id of the fmu */
   const char     *instanceName; /* instance name */
   char           *fmuResourceLocation;  /* Dummy */
-
+  
   fmi2Status      fmi2Flag;     /* return code of the fmu functions */
   fmi2Component   c;            /* instance of the fmu */
   ModelDescription *md;         /* handle to the parsed XML file */
@@ -406,7 +406,7 @@ FMU_Activate_Entrypoint (const char *fmuFileName, double tEnd, double h, FMUCont
   /* Build resource location */
 
   fmuResourceLocation = malloc (strlen (resourcePath) + strlen(resourcePrefix) + 4);
-  sprintf (fmuResourceLocation, "%s%s//",resourcePrefix, resourcePath);
+  sprintf (fmuResourceLocation, "%s%s/resources/",resourcePrefix, resourcePath);
 
   md = ctx->fmu->modelDescription;
   guid = getAttributeValue ((Element *) md, att_guid);
