@@ -13,27 +13,26 @@
 ###############################################################################
 
 ###############################################################################
-# Baseline: debian 9 (stretch)
+# Baseline: debian 10 (buster)
 #
 
-FROM debian:stretch
+FROM debian:buster
 MAINTAINER Jerome Hugues <hugues.jerome@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
             git wget ca-certificates \
-            autoconf automake gnat-6 build-essential \
+            autoconf automake gnat gprbuild build-essential \
             python python-dev python-setuptools python-lxml python-docopt \
-            checkinstall sudo procps \
-            libxml2-dev unzip libgfortran3
+            sudo procps \
+            libxml2-dev unzip libgfortran5
 
 # Note on installed packages
 # * git + wget + ca-certificates             : fetch source from repositories
-# * autoconf automake gnat-6 build-essential : compilation chain
+# * autoconf automake gnat gprbuild build-essential : compilation chain
 # * python python-dev python-setuptools      : testsuite + FMI manipulation
 #   python-lxml
-# * checkinstall sudo                        : automatically build .deb
-# * libxml2-dev unzip libgfortran3           : for FMI .fmu manipulation
+# * libxml2-dev unzip libgfortran5           : for FMI .fmu manipulation
 
 ###############################################################################
 # Install default "ocarina" user
@@ -48,6 +47,7 @@ VOLUME /work
 
 USER ocarina
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ocarina/.local/bin:/home/ocarina/local/bin
+ENV TERM xterm
 ENV LANG en_US
 ENV LC_ALL en_US.UTF-8
 WORKDIR /home/ocarina
