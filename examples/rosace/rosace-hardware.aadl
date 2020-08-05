@@ -1,13 +1,14 @@
 package ROSACE::Hardware
 public
   with Deployment;
+  with FMI;
   with Processor_Properties;
 
   ---------------
   -- POSIX_CPU --
   ---------------
 
-  processor POSIX_CPU
+  processor POSIX_CPU extends FMI::FMU_Processor
   properties
     Scheduling_Protocol => (POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL);
     Deployment::Execution_Platform => Native;
