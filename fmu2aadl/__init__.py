@@ -148,11 +148,12 @@ def FMU2AADL_Subprogram(root,tree,file):
     FMU2AADL_MapScalarVariable(tree, file, False)
 
     file.write(3 * ' ' + 'properties\n')
-    file.write(6 * ' ' + 'Source_Language => (C);\n')
+    file.write(6 * ' ' + 'Source_Language => (CPP);\n')
     file.write(6 * ' ' + 'Source_Name => "' + root.get('modelName').lower()
                + '_fmu_entrypoint";\n')
     file.write(6 * ' ' + 'Source_Text => ("' + root.get('modelName').lower()
-               + '_fmu_wrapper.c");\n')
+               + '_fmu_wrapper.c", "fmusdk2.0.3/src/sim_support.c", "fmu_wrapper.c", "fmusdk2.0.3/src/XmlElement.cpp", "fmusdk2.0.3/src/XmlParser.cpp", "fmusdk2.0.3/src/XmlParserCApi.cpp");\n')
+
     file.write(3 * ' ' + 'end ' + root.get('modelName') + '_spg;\n')
     file.write('\n')
 
@@ -319,8 +320,7 @@ def fmu2aadl(fmu_file, period, duration):
 
     shutil.copy(os.path.dirname(__file__) + "/fmu_wrapper.c", ".")
     shutil.copy(os.path.dirname(__file__) + "/fmu_wrapper.h", ".")
-    shutil.copy(os.path.dirname(__file__) + "/userdefined.mk", ".")
-    print "Copied fmu_wrapper.(c|h) and userdefined.mk to current directory"
+    print "Copied fmu_wrapper.(c|h) to current directory"
 
     copy_tree(os.path.dirname(__file__) + "/fmusdk2.0.3", "./fmusdk2.0.3")
 

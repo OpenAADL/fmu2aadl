@@ -54,7 +54,7 @@ public
     C3 : port Plant.FMI_V -> Controller.V_In;
   end MoonLanding.impl;
 
-  processor CPU
+  processor CPU extends FMI::FMU_Processor
   properties
     Deployment::Execution_Platform => Native;
   end CPU;
