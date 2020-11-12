@@ -81,7 +81,10 @@ def FMU2AADL_MapScalarVariable(tree, file,thread_port):
             file.write(6 * ' ' + Map_Name(svar))               # port name
             file.write(causality_map[svar.get('causality')])     # direction
             if (thread_port):                                    # category
-                file.write(variability_map[svar.get('variability')])
+                if (svar.get('variability')):
+                    file.write(variability_map[svar.get('variability')])
+                else:
+                    file.write(variability_map['continuous'])
             else:
                 file.write("parameter ")
 
